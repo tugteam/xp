@@ -80,7 +80,7 @@ function M.load_data(data)
 	M.xp = data
 end
 
-local function setup_node(node_name)
+function M.setup_node(node_name)
 	if node_name ~= nil then
 		assert(M.node_exists(node_name), "XP: node_text_xp_current must be a node that exists")
 		return gui.get_node(node_name)	
@@ -123,7 +123,7 @@ function M.create_id(id, label, data)
 			xp[k] = v
 			-- this should be from a table or something
 			if k == "node_text_xp_current" or k == "node_text_max_xp" or k == "node_clipper" or k == "node_current_level_text" then
-				xp[k] = setup_node(v)
+				xp[k] = M.setup_node(v)
 			end
 		end
 	end
@@ -135,11 +135,11 @@ function M.create_id(id, label, data)
 	xp.easing_range_total_new = xp.easing_range_total - xp.easing_range_initial
 	xp.easing = ease.out_cubic(math.min(xp.easing_timer, xp.easing_duration), xp.easing_duration, 0, xp.easing_range_total_new ) + xp.easing_range_initial
 
-	xp.node_text_xp_current = xp.node_text_xp_current or setup_node(M.xp_data[label].node_text_xp_current)
-	xp.node_text_max_xp = xp.node_text_max_xp or setup_node(M.xp_data[label].node_text_max_xp)
-	xp.node_clipper = xp.node_clipper or setup_node(M.xp_data[label].node_clipper)
-	xp.node_current_level_text = xp.node_current_level_text or setup_node(M.xp_data[label].node_current_level_text)
-	
+	xp.node_text_xp_current = xp.node_text_xp_current or M.setup_node(M.xp_data[label].node_text_xp_current)
+	xp.node_text_max_xp = xp.node_text_max_xp or M.setup_node(M.xp_data[label].node_text_max_xp)
+	xp.node_clipper = xp.node_clipper or M.setup_node(M.xp_data[label].node_clipper)
+	xp.node_current_level_text = xp.node_current_level_text or M.setup_node(M.xp_data[label].node_current_level_text)
+
 	if xp.node_clipper ~= nil then
 		xp.node_clipper_size = gui.get_size(xp.node_clipper)
 		xp.node_clipper_width = xp.node_clipper_size.x		
